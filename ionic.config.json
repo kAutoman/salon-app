@@ -1,0 +1,9 @@
+{
+  "name": "ioncrypto",
+  "integrations": {
+    "capacitor": {},
+    "cordova": {}
+  },
+  "type": "angular",
+  "id": "dd57a633"
+}

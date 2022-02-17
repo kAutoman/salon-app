@@ -1,0 +1,111 @@
+{
+  "cordova-plugin-statusbar": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-statusbar@2.4.2"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-device": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-device@2.0.2"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-splashscreen": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-splashscreen@5.0.2"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-ionic-keyboard": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-ionic-keyboard@^2.0.5"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-ionic-webview": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-ionic-webview@latest"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-geolocation": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-geolocation@^4.1.0"
+    },
+    "is_top_level": true,
+    "variables": {
+      "GPS_REQUIRED": "true"
+    }
+  },
+  "cordova-plugin-nativegeocoder": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-nativegeocoder@^3.4.1"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-add-swift-support": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-add-swift-support@2.0.2"
+    },
+    "is_top_level": false,
+    "variables": {}
+  },
+  "cordova-plugin-facebook4": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-facebook4@^6.4.0"
+    },
+    "is_top_level": true,
+    "variables": {
+      "FACEBOOK_HYBRID_APP_EVENTS": "false",
+      "FACEBOOK_ANDROID_SDK_VERSION": "5.13.0"
+    }
+  },
+  "cordova-androidx-build": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-androidx-build"
+    },
+    "is_top_level": false,
+    "variables": {}
+  },
+  "cordova-plugin-googlemaps": {
+    "source": {
+      "type": "registry",
+      "id": "https://github.com/mapsplugin/cordova-plugin-googlemaps#multiple_maps"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-stripe": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-stripe@^1.5.3"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-applepay": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-applepay@^5.0.0"
+    },
+    "is_top_level": true,
+    "variables": {}
+  }
+}
