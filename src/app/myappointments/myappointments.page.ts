@@ -150,11 +150,11 @@ export class MyappointmentsPage implements OnInit {
             .subscribe(res => {
               if(res["status"] == 200){
                 this.toastMessage(res["message"]);
+                this.getUpcoming();
               }else{
                 if(Array.isArray(res["message"])){
                   for(let key in res["message"]){
                     this.toastMessage(res["message"][key]);
-                    this.getUpcoming();
                   }
                 }else{
                   this.toastMessage(res["message"]);
