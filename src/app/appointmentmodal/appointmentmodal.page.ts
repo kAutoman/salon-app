@@ -197,21 +197,42 @@ export class AppointmentmodalPage implements OnInit {
   }
 
   applePayment(){
-    console.log("Pay via apple.");
     this.applePay.canMakePayments().then((message) => {
-      console.log(message);
+      this.toastMessage(message);
+      let order: any = {
+        items: [
+          { label: 'Service', amount: this.orginal_price },
+          { label: 'Tip', amount: this.tip_price },
+          { label: 'Beauty Salon', amount: this.total_price }
+        ],
+        shippingMethods: [],
+        merchantIdentifier: 'com.company.applicationName', /* The merchant ID registered in Apple developer account */
+        currencyCode: 'USD', 
+        countryCode: 'US', 
+        billingAddressRequirement: ['name','email','phone'], 
+        shippingAddressRequirement: 'none',
+        shippingType: 'none',
+        merchantCapabilities: ['3ds', 'debit', 'credit'], /* The payment capabilities supported by the merchant. */
+        supportedNetworks: ['visa', 'masterCard', 'amex', 'discover'],  
+        /* The list of payment networks supported by the merchant. */
+        total: { label: 'COMPANY, INC.', amount: this.total_price, type: "final" }
+      }
+      this.applePay.makePaymentRequest(order).then(message => {
+        this.toastMessage(message);
+        this.applePay.completeLastTransaction('success');
+      }).catch((error) => {
+        this.applePay.completeLastTransaction('failure');
+        this.toastMessage(error);
+      });
     }).catch((error) => {
-      console.log(error);
+      this.toastMessage(error);
     })
   }
 
   visaPay(){
-    console.log("Pay via visa card");
     this.stripe.setPublishableKey('pk_test_51KTg0FKjV2JSpsumi5RKbZdqZo34XOt0OxCG523b9Fd6HP5HMXELLUPqKo9cW88Ccp5QVtJPeqtB6yh7OvCIMyDg00DXUsjGzB');
     var token = localStorage.getItem('token');
-
     let card;
-
     this.http.get(this.apiUrl+"card/get-default?api_token=" + token)
     .subscribe(res => {
       if(res["status"] == 200){

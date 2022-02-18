@@ -24,6 +24,18 @@
                 <param name="ios-package" value="CDVApplePay"/>
             </feature>
         </config-file>
+		
+		<config-file target="*-Debug.plist" parent="com.apple.developer.in-app-payments">
+			<array>
+			  <string>Put your debug / developer merchant ID here</string>
+			</array>
+		</config-file>
+
+		<config-file target="*-Release.plist" parent="com.apple.developer.in-app-payments">
+			<array>
+			  <string>Put your production merchant ID here</string>
+			</array>
+		</config-file>
 
     </platform>
 
