@@ -42,10 +42,13 @@ ion-content
         
         .radio-group
         {
+            display: flex;
+            align-items: center;
 
             ion-item
             {
                 --background: transparent;
+                width: 95%;
     
                 .icon
                 {
@@ -75,6 +78,7 @@ ion-content
             ion-label
             {
                 float: right;
+                color: red
             }
         }
         

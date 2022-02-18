@@ -36,11 +36,13 @@
   <p class="error" [hidden]="validated">Something went wrong</p>
 
   <div class="default">
-    <ion-radio-group [(ngModel)]="default">
-      <ion-item lines="none" class="ion-no-padding animate__animated animate__fadeInLeft">
-        <ion-label class="ion-text-right" slot="end">Make Default</ion-label>
-        <ion-radio mode="md" slot="end" value="1"></ion-radio>
-      </ion-item>
+    <ion-radio-group (ionChange)="setDefault()">
+      <div class="radio-group">
+        <ion-item lines="none" class="ion-no-padding animate__animated animate__fadeInLeft">
+          <ion-label class="ion-text-right" slot="end">Make Default</ion-label>
+          <ion-radio mode="md" slot="end" value="1"></ion-radio>
+        </ion-item>
+      </div>     
     </ion-radio-group>
   </div>
 

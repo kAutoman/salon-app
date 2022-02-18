@@ -122,6 +122,10 @@ export class AddcardmodalPage implements OnInit {
     }
   }
 
+  setDefault(){
+    this.default = 1;
+  }
+
   addCard(){
     var params = {
       api_token: localStorage.getItem('token'),

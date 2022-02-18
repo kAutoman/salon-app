@@ -10,6 +10,10 @@ import { AddcardmodalPage } from '../addcardmodal/addcardmodal.page';
 })
 export class CardsPage implements OnInit {
 
+  options2 = {
+    initialSlide: 0,
+    slidesPerView:1,
+  };
   cards: any;
   method: string = 'apple';
   apiUrl = 'https://hairday.app/api/';
@@ -19,11 +23,19 @@ export class CardsPage implements OnInit {
   constructor(private navCtrl: NavController, private modalCtrl: ModalController, private http: HttpClient) { }
 
   ngOnInit() {
+    this.getCards();
+  }
+
+  getCards(){
     this.http.post(this.apiUrl+"card", JSON.stringify({api_token: localStorage.getItem('token')}), this.httpOptions)
     .subscribe(res => {
       if(res["status"] == 200){
         this.cards = res["data"];
-        console.log(this.cards);
+        for(var i in this.cards){
+          if(this.cards[i].default == 1){
+            this.method = String(this.cards[i].id);
+          }
+        }
       }
     }, (err) => {
       console.log(err);
@@ -42,13 +54,38 @@ export class CardsPage implements OnInit {
     modal.onDidDismiss()
     .then((data:any) => {
       this.cards.push(data.data.card);
+      if(data.data.card.default == 1){
+        this.method = String(data.data.card.id);
+      }
     });
     
     return await modal.present();
   }
 
   selectCard(){
-    console.log(this.method);
+    var params = {
+      card_id: this.method,
+      default: 1,
+    };
+    this.http.post(this.apiUrl+"card/default", JSON.stringify(params), this.httpOptions)
+    .subscribe(res => {
+      if(res["status"] == 200){
+      }
+    }, (err) => {
+      console.log(err);
+    });
+  }
+
+  deleteCard(card_id){
+    console.log(card_id);
+    this.http.post(this.apiUrl+"card/delete", JSON.stringify({card_id: card_id}), this.httpOptions)
+    .subscribe(res => {
+      if(res["status"] == 200){
+        this.getCards();
+      }
+    }, (err) => {
+      console.log(err);
+    });
   }
 
 }
