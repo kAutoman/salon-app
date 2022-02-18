@@ -27,7 +27,8 @@ export class SalonPage implements OnInit {
   logoUrl = 'https://hairday.app/assets/images/salon-logos/';
   imageUrl = 'https://hairday.app/assets/images/salons/';
   professionalUrl = 'https://hairday.app/assets/images/professionals/';
-  avatarUrl = 'https://hairday.app/assets/images/professional-avatars/';;
+  avatarUrl = 'https://hairday.app/assets/images/professional-avatars/';
+  reviewUrl = 'https://hairday.app/assets/images/reviews/';
   apiUrl = 'https://hairday.app/api/';
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
