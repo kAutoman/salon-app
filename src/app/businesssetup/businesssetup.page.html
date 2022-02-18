@@ -63,7 +63,7 @@
       <h1>Opening hours</h1>
       <ion-grid fixed>
         <ion-row class="ion-align-items-center">
-          <p *ngFor="let opening_hour of opening_hours | keyvalue">{{opening_hour.value.day}} {{opening_hour.value.open_time}} - {{opening_hour.value.close_time}} <span (click)="removeOpeningHour(key)">Remove</span></p>
+          <p *ngFor="let opening_hour of opening_hours | keyvalue">{{opening_hour.value.day}} {{opening_hour.value.open_time}} - {{opening_hour.value.close_time}} <span (click)="removeOpeningHour(opening_hour.key)">Remove</span></p>
         </ion-row>
         <ion-row class="ion-align-items-center ion-justify-content-center">
           <ion-col size="4">

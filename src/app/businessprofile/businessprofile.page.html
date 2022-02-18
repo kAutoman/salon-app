@@ -25,7 +25,7 @@
     </div>
 
     <div class="top-slider-holder animate__animated animate__slideInRight ion-padding-horizontal">
-      <ion-slides mode="ios" pager="false" scrollbar="false" [options]="options1" *ngIf="category != 'professionals'">
+      <ion-slides mode="ios" pager="false" scrollbar="false" [options]="detail.salon_slider" *ngIf="category != 'professionals'">
         <ion-slide *ngFor="let image of detail.salon_images">
           <div class="card ion-text-left">
             <img src="{{imageUrl}}{{image.image}}" alt="">
@@ -92,7 +92,7 @@
         <div class="card" *ngFor="let professional of detail.professionals">
           <ion-grid class="ion-no-padding" fixed>
             <ion-row class="ion-padding-horizontal slider">
-              <ion-slides mode="ios" pager="false" scrollbar="false" [options]="options3">
+              <ion-slides mode="ios" pager="false" scrollbar="false" [options]="professional.slider_option">
                 <ion-slide *ngFor="let image of professional.professional_images">
                   <div class="card ion-text-left">
                     <img src="{{professionalUrl}}{{image.image}}" alt="">

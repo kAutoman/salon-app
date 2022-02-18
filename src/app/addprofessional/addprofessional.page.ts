@@ -89,8 +89,9 @@ export class AddprofessionalPage implements OnInit {
     let formData = new FormData();
     formData.append("first_name", this.fname);
     formData.append("last_name", this.lname);
+    formData.append("salon_id", this.salon_id);
     formData.append("professional_skill_id", this.skill.id);
-    formData.append("service_ids", this.checked);
+    formData.append("service_ids", JSON.stringify(this.checked));
     formData.append("avatar", this.avatar);
     for(var i in this.portfolios){
       formData.append("images[]", this.portfolios[i]);

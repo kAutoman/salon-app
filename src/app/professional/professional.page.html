@@ -19,7 +19,7 @@
       <div class="card" *ngFor="let professional of professionals" (click)="goPortfolio(professional.id)">
         <ion-grid class="ion-no-padding" fixed>
           <ion-row class="ion-padding-horizontal slider">
-            <ion-slides mode="ios" pager="false" scrollbar="false" [options]="options">
+            <ion-slides mode="ios" pager="false" scrollbar="false" [options]="professional.options">
               <ion-slide *ngFor="let image of professional.professional_images">
                 <div class="card ion-text-left">
                   <img src="{{professionalUrl}}{{image.image}}" alt="">

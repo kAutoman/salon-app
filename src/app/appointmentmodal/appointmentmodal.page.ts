@@ -243,7 +243,7 @@ export class AppointmentmodalPage implements OnInit {
                     month: this.date.toLocaleDateString("en-US", { month: 'long' }),
                     date: this.date.toLocaleDateString("en-US", { day: 'numeric' }),
                     day: this.date.toLocaleDateString("en-US", { weekday: 'long' }),
-                    time: this.time,
+                    time: this.datas[0].time,
                     price: this.orginal_price,
                     tip: this.tip_price,
                     tax: 0

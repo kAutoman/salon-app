@@ -10,11 +10,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class ProfessionalPage implements OnInit {
 
-  options = {
-    initialSlide: 0,
-    slidesPerView:3.6,
-  };
-  
   title: any;
   service_id:any = 1;
   professionals: any;
@@ -39,6 +34,20 @@ export class ProfessionalPage implements OnInit {
       if(res["status"] == 200){
         this.title = res["data"]["name"];
         this.professionals = res["data"]["professionals"];
+        for(var i in this.professionals){
+          var image_count = this.professionals[i].professional_images.length;
+          if(image_count < 4){
+            this.professionals[i].options = {
+              initialSlide: 0,
+              slidesPerView:image_count,
+            };
+          }else{
+            this.professionals[i].options = {
+              initialSlide: 0,
+              slidesPerView:3.6,
+            };
+          }
+        }
       }
     }, (err) => {
       console.log(err);

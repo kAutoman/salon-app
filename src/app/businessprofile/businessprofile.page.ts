@@ -20,13 +20,8 @@ export class BusinessprofilePage implements OnInit {
     initialSlide: 0,
     slidesPerView:3,
   };
-
-  options3 = {
-    initialSlide: 0,
-    slidesPerView:3.6,
-  };
   
-  salon_id: any = 2;
+  salon_id: any = 1;
   category:any = 'services';
   type : any = 'haircut';
   salon: any;
@@ -68,12 +63,38 @@ export class BusinessprofilePage implements OnInit {
     .subscribe(res => {
       if(res["status"] == 200){
         this.salon = [res["data"]["salon"]];
+        var salon_image_count = this.salon[0].salon_images.length;
+        if(salon_image_count < 4){
+          this.salon[0].salon_slider = {
+            initialSlide: 0,
+            slidesPerView:salon_image_count,
+          }
+        }else{
+          this.salon[0].salon_slider = {
+            initialSlide: 0,
+            slidesPerView:3.2,
+          }
+        }
         this.safeties = res["data"]["salon"]["health_and_safeties"];
         this.amenities = res["data"]["salon"]["amenities"];
         let opening_hours = res["data"]["salon"]["opening_hours"];
         let today = new Date;
         let week = today.getDay();
         this.opening_hour = opening_hours[week-1];
+        for(var i in this.salon[0].professionals){
+          var image_count = this.salon[0].professionals[i].professional_images.length;
+          if(image_count < 4){
+            this.salon[0].professionals[i].slider_option = {
+              initialSlide: 0,
+              slidesPerView:image_count,
+            }
+          }else{
+            this.salon[0].professionals[i].slider_option = {
+              initialSlide: 0,
+              slidesPerView:3.6,
+            }
+          }
+        }
       }
     }, (err) => {
       console.log(err);
