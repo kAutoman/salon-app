@@ -53,10 +53,7 @@ export class CardsPage implements OnInit {
 
     modal.onDidDismiss()
     .then((data:any) => {
-      this.cards.push(data.data.card);
-      if(data.data.card.default == 1){
-        this.method = String(data.data.card.id);
-      }
+      this.getCards();
     });
     
     return await modal.present();
