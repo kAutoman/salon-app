@@ -24,6 +24,7 @@ export class PortfolioPage implements OnInit {
   guest: boolean = true;
   professionalUrl = 'https://hairday.app/assets/images/professionals/';
   avatarUrl = 'https://hairday.app/assets/images/professional-avatars/';
+  reviewUrl = 'https://hairday.app/assets/images/reviews/';
   apiUrl = 'https://hairday.app/api/';
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),

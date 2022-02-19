@@ -21,7 +21,7 @@
               </div>
               <ion-label>
                 <div class="title flex al-center" >
-                  <p>{{professional.name}}</p>
+                  <p>{{professional.first_name}} {{professional.last_name}}</p>
                 </div>
                 <div class="special flex al-center" >
                   <p>{{professional.professional_skill.name}}</p>
@@ -87,7 +87,7 @@
             {{review.name}}
           </h4>
           <p>{{review.description}}</p>
-          <img src="assets/imgs/img26.png">
+          <img src="{{reviewUrl}}{{review.image}}" *ngIf="review.image != null">
           <h5>Lisa F.  {{dateStringify(review.created_at)}}</h5>
         </div>
       </div>

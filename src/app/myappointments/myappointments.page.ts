@@ -131,8 +131,15 @@ export class MyappointmentsPage implements OnInit {
   }
 
   changeAppointment(appointment){
-   this.cancelAppointment(appointment.id);
-   this.repeatAppointment(appointment);
+    this.http.post(this.apiUrl+"my-appointment/cancel-appointment", JSON.stringify({appointment_id: appointment.id}), this.httpOptions)
+      .subscribe(res => {
+        if(res["status"] == 200){
+          this.getUpcoming();
+        }
+      }, (err) => {
+        console.log(err);
+      });
+    this.repeatAppointment(appointment);
   }
 
   async cancelAppointment(appointment_id){

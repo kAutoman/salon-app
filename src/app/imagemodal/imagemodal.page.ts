@@ -62,51 +62,55 @@ export class ImagemodalPage implements OnInit {
 
   nextStep(){
     if(this.type == 'profile'){
-      let formData = new FormData();
-
-      formData.append("api_token", localStorage.getItem('token'));
-      formData.append("image", this.image);
-  
-      this.http.post(this.apiUrl+"profile/change-image", formData)
-        .subscribe(res => {
-          if(res["status"] == 200){
-            this.toastMessage(res["message"]);
-            this.modalCtrl.dismiss();
-          }else{
-            for(let key in res["message"]){
-              this.toastMessage(res["message"][key]);
+      if(this.image == undefined){
+        this.toastMessage('Please upload profile image');
+      }else{
+        let formData = new FormData();
+        formData.append("api_token", localStorage.getItem('token'));
+        formData.append("image", this.image);
+    
+        this.http.post(this.apiUrl+"profile/change-image", formData)
+          .subscribe(res => {
+            if(res["status"] == 200){
+              this.toastMessage(res["message"]);
+              this.modalCtrl.dismiss();
+            }else{
+              for(let key in res["message"]){
+                this.toastMessage(res["message"][key]);
+              }
             }
-          }
-        }, (err) => {
-          console.log(err);
-        });
+          }, (err) => {
+            console.log(err);
+          });
+        }
     }else if(this.type == 'business' || this.type == 'professional' || this.type == "portfolio" || this.type == "review"){
       this.modalCtrl.dismiss({avatar: this.image});
     }else if(this.type == 'salon'){
       var salon_id = this.navParams.get('salon_id');
-
-      let formData = new FormData();
-
-      formData.append("salon_id", salon_id);
-      formData.append("image", this.image);
-  
-      this.http.post(this.apiUrl+"business/upload-business-image", formData)
-        .subscribe(res => {
-          if(res["status"] == 200){
-            this.toastMessage(res["message"]);
-            this.modalCtrl.dismiss();
-          }else{
-            if(Array.isArray(res["message"])){
-              for(let key in res["message"]){
-                this.toastMessage(res["message"][key]);
-              }
-            }else{
+      if(this.image == undefined){
+        this.toastMessage('Please upload salon image');
+      }else{
+        let formData = new FormData();
+        formData.append("salon_id", salon_id);
+        formData.append("image", this.image);  
+        this.http.post(this.apiUrl+"business/upload-business-image", formData)
+          .subscribe(res => {
+            if(res["status"] == 200){
               this.toastMessage(res["message"]);
+              this.modalCtrl.dismiss();
+            }else{
+              if(Array.isArray(res["message"])){
+                for(let key in res["message"]){
+                  this.toastMessage(res["message"][key]);
+                }
+              }else{
+                this.toastMessage(res["message"]);
+              }
             }
-          }
-        }, (err) => {
-          console.log(err);
-        });
+          }, (err) => {
+            console.log(err);
+          });
+        }
     }
   }
 

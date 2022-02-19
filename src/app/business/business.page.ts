@@ -45,27 +45,39 @@ export class BusinessPage implements OnInit {
   }
 
   saveProfile(){
-    let formData = new FormData();
-    formData.append("api_token", localStorage.getItem('token'));
-    formData.append("first_name", this.fname);
-    formData.append("last_name", this.lname);
-    formData.append("name", this.bname);
-    formData.append("business_type_id", this.btype);
-    formData.append("logo", this.avatar);
-
-    this.http.post(this.apiUrl+"business/add-name-and-image", formData)
-      .subscribe(res => {
-        if(res["status"] == 200){
-          this.toastMessage(res["message"]);
-          this.navCtrl.navigateForward('businesssetup', {state: {salon_id: res["data"][0]}});
-        }else{
-          for(let key in res["message"]){
-            this.toastMessage(res["message"][key]);
+    if(this.fname == undefined){
+      this.toastMessage('Please input first name');
+    }else if(this.lname == undefined){
+      this.toastMessage('Please input last name');
+    }else if(this.bname == undefined){
+      this.toastMessage('Please input business name');
+    }else if(this.btype == undefined){
+      this.toastMessage('Please select business type');
+    }else if(this.avatar == undefined){
+      this.toastMessage('Please upload profile image');
+    }else{
+      let formData = new FormData();
+      formData.append("api_token", localStorage.getItem('token'));
+      formData.append("first_name", this.fname);
+      formData.append("last_name", this.lname);
+      formData.append("name", this.bname);
+      formData.append("business_type_id", this.btype);
+      formData.append("logo", this.avatar);
+  
+      this.http.post(this.apiUrl+"business/add-name-and-image", formData)
+        .subscribe(res => {
+          if(res["status"] == 200){
+            this.toastMessage(res["message"]);
+            this.navCtrl.navigateForward('businesssetup', {state: {salon_id: res["data"][0]}});
+          }else{
+            for(let key in res["message"]){
+              this.toastMessage(res["message"][key]);
+            }
           }
-        }
-      }, (err) => {
-        console.log(err);
-      });
+        }, (err) => {
+          console.log(err);
+        });
+    }
   }
 
   async changeImage(){

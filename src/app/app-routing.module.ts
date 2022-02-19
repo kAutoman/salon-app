@@ -59,6 +59,10 @@ const routes: Routes = [
     loadChildren: () => import('./appointmentmodal/appointmentmodal.module').then( m => m.AppointmentmodalPageModule)
   },
   {
+    path: 'paymentmodal',
+    loadChildren: () => import('./paymentmodal/paymentmodal.module').then( m => m.PaymentmodalPageModule)
+  },
+  {
     path: 'market',
     loadChildren: () => import('./market/market.module').then( m => m.MarketPageModule)
   },

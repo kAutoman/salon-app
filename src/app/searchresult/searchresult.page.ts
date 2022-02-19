@@ -61,6 +61,20 @@ export class SearchresultPage implements OnInit {
           .subscribe(res => {
             if(res["status"] == 200){
               this.salons = res["data"];
+              for(var i in this.salons){
+                var salon_image_count = this.salons[i].salon_images.length;
+                if(salon_image_count < 4){
+                  this.salons[i].salon_slider = {
+                    initialSlide: 0,
+                    slidesPerView:salon_image_count,
+                  }
+                }else{
+                  this.salons[i].salon_slider = {
+                    initialSlide: 0,
+                    slidesPerView:4,
+                  }
+                }
+              }
             }
             if(this.salons.length == 0){
               this.empty = true;

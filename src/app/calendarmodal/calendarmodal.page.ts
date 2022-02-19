@@ -14,7 +14,7 @@ export class CalendarmodalPage implements OnInit {
   eventSource;
   viewTitle;
   day: any;
-  time = {lower: 8, upper: 24};
+  time: any;
   calendar = {
       mode: 'month' as CalendarMode,
       step: 30 as Step,
@@ -30,9 +30,19 @@ export class CalendarmodalPage implements OnInit {
   
   constructor(private navCtrl: NavController, private modalCtrl: ModalController, private navParams: NavParams) { }
  
-  ngOnInit() {
-    this.date = this.navParams.get('date');
-    this.time = this.navParams.get('time');
+  ngOnInit() {  }
+
+  ionViewWillEnter(): void {
+    var date = this.navParams.get('date');
+    var time = this.navParams.get('time');
+    if(date != undefined){
+      this.calendar.currentDate = date;
+    }
+    if(time != undefined){
+      this.time = time;
+    }else{
+      this.time = {lower: 8, upper: 24};
+    }
   }
 
   previous()
@@ -57,6 +67,13 @@ export class CalendarmodalPage implements OnInit {
 
   setTime(day){
     this.day = day;
+    if(day == 'morning'){
+      this.time = {lower: 8, upper: 12};
+    }else if(day == 'afternoon'){
+      this.time = {lower: 12, upper: 18};
+    }else{
+      this.time = {lower: 18, upper: 24};
+    }
   }
 
   clear(){

@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CalendarMode, Step } from 'ionic2-calendar/calendar';
 import { ApplePay } from '@ionic-native/apple-pay/ngx'
 import { Stripe } from '@awesome-cordova-plugins/stripe/ngx';
+import { PaymentmodalPage } from '../paymentmodal/paymentmodal.page';
 
 @Component({
   selector: 'app-appointmentmodal',
@@ -197,36 +198,40 @@ export class AppointmentmodalPage implements OnInit {
   }
 
   applePayment(){
-    this.applePay.canMakePayments().then((message) => {
-      this.toastMessage(message);
-      let order: any = {
-        items: [
-          { label: 'Service', amount: this.orginal_price },
-          { label: 'Tip', amount: this.tip_price },
-          { label: 'Beauty Salon', amount: this.total_price }
-        ],
-        shippingMethods: [],
-        merchantIdentifier: 'com.company.applicationName', /* The merchant ID registered in Apple developer account */
-        currencyCode: 'USD', 
-        countryCode: 'US', 
-        billingAddressRequirement: ['name','email','phone'], 
-        shippingAddressRequirement: 'none',
-        shippingType: 'none',
-        merchantCapabilities: ['3ds', 'debit', 'credit'], /* The payment capabilities supported by the merchant. */
-        supportedNetworks: ['visa', 'masterCard', 'amex', 'discover'],  
-        /* The list of payment networks supported by the merchant. */
-        total: { label: 'COMPANY, INC.', amount: this.total_price, type: "final" }
-      }
-      this.applePay.makePaymentRequest(order).then(message => {
-        this.toastMessage(message);
-        this.applePay.completeLastTransaction('success');
-      }).catch((error) => {
-        this.applePay.completeLastTransaction('failure');
-        this.toastMessage(error);
-      });
-    }).catch((error) => {
-      this.toastMessage(error);
-    })
+    this.paymentSuccess();
+    this.modalCtrl.dismiss();
+    // this.applePay.canMakePayments().then((message) => {
+    //   this.toastMessage(message);
+    //   let order: any = {
+    //     items: [
+    //       { label: 'Service', amount: this.orginal_price },
+    //       { label: 'Tip', amount: this.tip_price },
+    //       { label: 'Beauty Salon', amount: this.total_price }
+    //     ],
+    //     shippingMethods: [],
+    //     merchantIdentifier: 'com.company.applicationName', /* The merchant ID registered in Apple developer account */
+    //     currencyCode: 'USD', 
+    //     countryCode: 'US', 
+    //     billingAddressRequirement: ['name','email','phone'], 
+    //     shippingAddressRequirement: 'none',
+    //     shippingType: 'none',
+    //     merchantCapabilities: ['3ds', 'debit', 'credit'], /* The payment capabilities supported by the merchant. */
+    //     supportedNetworks: ['visa', 'masterCard', 'amex', 'discover'],  
+    //     /* The list of payment networks supported by the merchant. */
+    //     total: { label: 'COMPANY, INC.', amount: this.total_price, type: "final" }
+    //   }
+    //   this.applePay.makePaymentRequest(order).then(message => {
+    //     this.toastMessage(message);
+    //     this.applePay.completeLastTransaction('success');
+    //     this.paymentSuccess();
+    //     this.modalCtrl.dismiss();
+    //   }).catch((error) => {
+    //     this.applePay.completeLastTransaction('failure');
+    //     this.toastMessage(error);
+    //   });
+    // }).catch((error) => {
+    //   this.toastMessage(error);
+    // })
   }
 
   visaPay(){
@@ -272,8 +277,8 @@ export class AppointmentmodalPage implements OnInit {
                   this.http.post(this.apiUrl+"appointment/add", JSON.stringify(data), this.httpOptions)
                   .subscribe(res => {
                     if(res["status"] == 200){
+                      this.paymentSuccess();
                       this.modalCtrl.dismiss();
-                      this.navCtrl.navigateForward("home");
                     }
                   }, (err) => {
                     console.log(err);
@@ -294,6 +299,19 @@ export class AppointmentmodalPage implements OnInit {
 
 
    
+  }
+
+  async paymentSuccess(){
+    const modal = await this.modalCtrl.create({
+      component: PaymentmodalPage,
+      componentProps: {datas: this.datas},
+      cssClass: 'appointmodal',
+      mode:'ios',
+      swipeToClose:true,
+      presentingElement: await this.modalCtrl.getTop()
+    });
+    
+    return await modal.present();
   }
 
   close()
