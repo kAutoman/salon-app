@@ -19,7 +19,7 @@
       <div class="day" *ngFor="let availability of availabilities | keyvalue">
         <ion-item lines="none"class="al-start ion-align-items-center">
           <ion-label>{{availability.value.day}}</ion-label>
-          <ion-toggle mode="ios" [(ngModel)]="availability.value.status" (ionChange)="setStatus(availability.key)"></ion-toggle>
+          <ion-toggle mode="ios" [(ngModel)]="availability.value.status"></ion-toggle>
         </ion-item>
         <ion-item lines="none" class="al-start ion-align-items-center" *ngIf="availability.value.status">
           <ion-title>Hours</ion-title>

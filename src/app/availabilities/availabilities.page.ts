@@ -12,7 +12,6 @@ export class AvailabilitiesPage implements OnInit {
 
   salon_id: any =1;
   professional_id: any =1;
-  professional: any;
   professional_name: any;
   availabilities = [];
   opening_hours: any;
@@ -36,24 +35,22 @@ export class AvailabilitiesPage implements OnInit {
     this.http.get(this.apiUrl+"business/get-professional-availability?salon_id="+this.salon_id+"&professional_id="+this.professional_id)
     .subscribe(res => {
       if(res["status"] == 200){
-        this.professional = res["data"]["professionals"][0];
-        this.professional_name = this.professional.first_name + " " + this.professional.last_name;
-        var availabilities = this.professional.professional_availabilities;
+        this.professional_name = res["data"]["professionals"][0].first_name + " " + res["data"]["professionals"][0].last_name;
         this.opening_hours = res["data"]["opening_hours"];
         for(var day in this.opening_hours){
-          var data;
-          if(day in availabilities){
-            data = {
+          if(day in res["data"]["professionals"][0].professional_availabilities){
+            var data1 = {
               day: day,
-              start_time: availabilities[day].start_time,
-              end_time: availabilities[day].end_time,
-              break_start_time: availabilities[day].break_start_time,
-              break_end_time: availabilities[day].break_end_time,
-              status: availabilities[day].status,
+              start_time: res["data"]["professionals"][0].professional_availabilities[day].start_time,
+              end_time: res["data"]["professionals"][0].professional_availabilities[day].end_time,
+              break_start_time: res["data"]["professionals"][0].professional_availabilities[day].break_start_time,
+              break_end_time: res["data"]["professionals"][0].professional_availabilities[day].break_end_time,
+              status: res["data"]["professionals"][0].professional_availabilities[day].status == 1? true : false,
               time_select: this.opening_hours[day]
             }
+            this.availabilities.push(data1);
           }else{
-            data = {
+            var data2 = {
               day: day,
               start_time: this.opening_hours[day][0],
               end_time: this.opening_hours[day][this.opening_hours[day].length - 1],
@@ -62,21 +59,13 @@ export class AvailabilitiesPage implements OnInit {
               status: false,
               time_select: this.opening_hours[day]
             }
+            this.availabilities.push(data2);
           }
-          this.availabilities.push(data);
         }
       }
     }, (err) => {
       console.log(err);
     });
-  }
-
-  setStatus(id){
-    if(this.availabilities[id].status == false){
-      this.availabilities[id].status = true;
-    }else{
-      this.availabilities[id].status = false;
-    }
   }
 
   setStartTime(id, ev){
