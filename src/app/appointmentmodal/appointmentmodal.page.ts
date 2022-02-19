@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, ModalController, NavParams, ToastController } from '@ionic/angular';
+import { NavController, ModalController, NavParams, ToastController, LoadingController } from '@ionic/angular';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CalendarMode, Step } from 'ionic2-calendar/calendar';
 import { ApplePay } from '@ionic-native/apple-pay/ngx'
@@ -56,6 +56,7 @@ export class AppointmentmodalPage implements OnInit {
     private modalCtrl: ModalController, 
     private navParams: NavParams, 
     private toastCtrl: ToastController,
+    private loadingCtrl: LoadingController,
     private http: HttpClient,
     private applePay: ApplePay,
     private stripe: Stripe,
@@ -198,46 +199,52 @@ export class AppointmentmodalPage implements OnInit {
   }
 
   applePayment(){
-    this.paymentSuccess();
-    this.modalCtrl.dismiss();
-    // this.applePay.canMakePayments().then((message) => {
-    //   this.toastMessage(message);
-    //   let order: any = {
-    //     items: [
-    //       { label: 'Service', amount: this.orginal_price },
-    //       { label: 'Tip', amount: this.tip_price },
-    //       { label: 'Beauty Salon', amount: this.total_price }
-    //     ],
-    //     shippingMethods: [],
-    //     merchantIdentifier: 'com.company.applicationName', /* The merchant ID registered in Apple developer account */
-    //     currencyCode: 'USD', 
-    //     countryCode: 'US', 
-    //     billingAddressRequirement: ['name','email','phone'], 
-    //     shippingAddressRequirement: 'none',
-    //     shippingType: 'none',
-    //     merchantCapabilities: ['3ds', 'debit', 'credit'], /* The payment capabilities supported by the merchant. */
-    //     supportedNetworks: ['visa', 'masterCard', 'amex', 'discover'],  
-    //     /* The list of payment networks supported by the merchant. */
-    //     total: { label: 'COMPANY, INC.', amount: this.total_price, type: "final" }
-    //   }
-    //   this.applePay.makePaymentRequest(order).then(message => {
-    //     this.toastMessage(message);
-    //     this.applePay.completeLastTransaction('success');
-    //     this.paymentSuccess();
-    //     this.modalCtrl.dismiss();
-    //   }).catch((error) => {
-    //     this.applePay.completeLastTransaction('failure');
-    //     this.toastMessage(error);
-    //   });
-    // }).catch((error) => {
-    //   this.toastMessage(error);
-    // })
+    this.applePay.canMakePayments().then((message) => {
+      this.toastMessage(message);
+      let order: any = {
+        items: [
+          { label: 'Service', amount: this.orginal_price },
+          { label: 'Tip', amount: this.tip_price },
+          { label: 'Beauty Salon', amount: this.total_price }
+        ],
+        shippingMethods: [],
+        merchantIdentifier: 'com.company.applicationName', /* The merchant ID registered in Apple developer account */
+        currencyCode: 'USD', 
+        countryCode: 'US', 
+        billingAddressRequirement: ['name','email','phone'], 
+        shippingAddressRequirement: 'none',
+        shippingType: 'none',
+        merchantCapabilities: ['3ds', 'debit', 'credit'], /* The payment capabilities supported by the merchant. */
+        supportedNetworks: ['visa', 'masterCard', 'amex', 'discover'],  
+        /* The list of payment networks supported by the merchant. */
+        total: { label: 'COMPANY, INC.', amount: this.total_price, type: "final" }
+      }
+      this.applePay.makePaymentRequest(order).then(message => {
+        this.toastMessage(message);
+        this.applePay.completeLastTransaction('success');
+        this.paymentSuccess();
+        this.modalCtrl.dismiss();
+      }).catch((error) => {
+        this.applePay.completeLastTransaction('failure');
+        this.toastMessage(error);
+      });
+    }).catch((error) => {
+      this.toastMessage(error);
+    })
   }
 
-  visaPay(){
+  async visaPay(){
     this.stripe.setPublishableKey('pk_test_51KTg0FKjV2JSpsumi5RKbZdqZo34XOt0OxCG523b9Fd6HP5HMXELLUPqKo9cW88Ccp5QVtJPeqtB6yh7OvCIMyDg00DXUsjGzB');
     var token = localStorage.getItem('token');
     let card;
+
+    const loading = await this.loadingCtrl.create({
+      spinner: 'bubbles',
+      cssClass: 'loading',
+      message: 'Checking...',
+    });
+    loading.present();
+
     this.http.get(this.apiUrl+"card/get-default?api_token=" + token)
     .subscribe(res => {
       if(res["status"] == 200){
@@ -276,6 +283,7 @@ export class AppointmentmodalPage implements OnInit {
                   }
                   this.http.post(this.apiUrl+"appointment/add", JSON.stringify(data), this.httpOptions)
                   .subscribe(res => {
+                    loading.dismiss();
                     if(res["status"] == 200){
                       this.paymentSuccess();
                       this.modalCtrl.dismiss();
